@@ -14,6 +14,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Face
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,12 +39,11 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = "Listen", color = Color.White) },
+                            title = { Text(text = "dota2compose", color = Color.White) },
                             navigationIcon = {
-                                Image(
-                                    painter = painterResource(R.drawable.ic_music),
-                                    contentScale = ContentScale.Crop,
-                                    contentDescription = null,
+                                Icon(
+                                    imageVector = Icons.Outlined.Menu,
+                                    contentDescription = "Icon Button",
                                     modifier = Modifier.padding(start = 8.dp)
                                 )
                             },
