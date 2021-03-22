@@ -2,7 +2,7 @@
 
 An app to show dota2 heroes written in JetpackCompose.
 
-![heroes](https://user-images.githubusercontent.com/33685811/111912005-02044c00-8a68-11eb-9ef8-4a1d97105b15.png)
+![heroes](https://user-images.githubusercontent.com/33685811/112058199-93ec8180-8b5a-11eb-9758-c54b5803c623.png)
 
 ### Stack
 - JetpackCompose
