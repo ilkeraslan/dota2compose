@@ -40,7 +40,7 @@ import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun HeroesScreen(viewModel: MainViewModel) {
     val myState by viewModel.state.collectAsState()
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()

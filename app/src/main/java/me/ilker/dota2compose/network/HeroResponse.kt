@@ -57,7 +57,7 @@ data class HeroResponse(
     @SerialName("7_win") val seventhPickWins: Int,
     @SerialName("8_win") val eighthPickWins: Int
 ) {
-    fun toDomain() : Hero = Hero(
+    fun toDomain(): Hero = Hero(
         agiGain = agiGain,
         attackRange = attackRange,
         attackRate = attackRate,
