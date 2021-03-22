@@ -40,22 +40,22 @@ import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
 
 @Composable
-fun HeroesScreen(viewModel: MainViewModel) {
-    val myState by viewModel.state.collectAsState()
+fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
+    val state by viewModel.state.collectAsState()
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
     viewModel.getHeroes()
 
-    when (myState) {
+    when (state) {
         is HeroState.Success -> LazyColumn(state = scrollState) {
-            items((myState as HeroState.Success).heroes) { hero ->
+            items((state as HeroState.Success).heroes) { hero ->
                 HeroCard(hero = hero)
             }
         }
         is HeroState.Error -> Toast.makeText(
             LocalContext.current,
-            (myState as HeroState.Error).error.message,
+            (state as HeroState.Error).error.message,
             Toast.LENGTH_LONG
         ).show()
     }
