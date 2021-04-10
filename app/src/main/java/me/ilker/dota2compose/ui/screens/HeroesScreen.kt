@@ -96,12 +96,12 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = hero.localizedName,
+                text = hero?.localizedName ?: "",
                 fontWeight = FontWeight.Bold
             )
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    text = hero.primaryAttr,
+                    text = hero?.primaryAttr ?: "",
                     style = TextStyle.Default
                 )
             }

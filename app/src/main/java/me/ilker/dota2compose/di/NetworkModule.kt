@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import me.ilker.dota2compose.network.NetworkService
 import okhttp3.MediaType.Companion.toMediaType
@@ -16,6 +17,7 @@ import retrofit2.Retrofit
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
+    @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
     fun providesRetrofit(okHttpClient: OkHttpClient): NetworkService {
@@ -23,7 +25,9 @@ class NetworkModule {
         return Retrofit.Builder()
             .baseUrl("https://api.opendota.com/api/")
             .client(okHttpClient)
-            .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory(contentType))
+            .addConverterFactory(Json {
+                ignoreUnknownKeys = true
+            }.asConverterFactory(contentType))
             .build()
             .create(NetworkService::class.java)
     }
