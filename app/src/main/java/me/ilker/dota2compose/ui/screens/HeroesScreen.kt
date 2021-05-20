@@ -16,9 +16,12 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -96,12 +99,13 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = hero?.localizedName ?: "",
+                text = hero.localizedName ?: "",
                 fontWeight = FontWeight.Bold
             )
+            Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Icon")
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    text = hero?.primaryAttr ?: "",
+                    text = hero.primaryAttr ?: "",
                     style = TextStyle.Default
                 )
             }

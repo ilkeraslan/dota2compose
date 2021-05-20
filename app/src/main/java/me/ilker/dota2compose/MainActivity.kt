@@ -4,27 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.KEY_ROUTE
 import androidx.navigation.compose.NavHost
@@ -33,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import me.ilker.dota2compose.ui.MainView
 import me.ilker.dota2compose.ui.screens.HeroesScreen
 import me.ilker.dota2compose.ui.screens.TeamsScreen
 import me.ilker.dota2compose.ui.theme.Dota2ComposeTheme
@@ -64,6 +58,9 @@ private fun ComposeMainScreen(mainViewModel: MainViewModel) {
     val bottomNavigationItems = listOf(Screens.HeroesScreen, Screens.TeamsScreen)
     val bottomBar: @Composable () -> Unit = { Dota2ComposeBottomNavigation(navController, bottomNavigationItems) }
 
+    val coroutineScope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
+
     NavHost(navController, startDestination = Screens.HeroesScreen.route) {
         composable(Screens.HeroesScreen.route) {
             HeroesScreen(mainViewModel) {
@@ -72,51 +69,22 @@ private fun ComposeMainScreen(mainViewModel: MainViewModel) {
         }
         composable(Screens.TeamsScreen.route) {
             TeamsScreen(mainViewModel) {
-                navController.navigate(Screens.TeamsScreen.route+ "/${it.destination.id}")
+                navController.navigate(Screens.TeamsScreen.route + "/${it.destination.id}")
             }
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "dota2compose", color = Color.White) },
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Menu,
-                        contentDescription = "Icon Button",
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                },
-                backgroundColor = Teal200,
-                actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Outlined.CheckCircle,
-                            contentDescription = "Icon Button"
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-/*                                        coroutineScope.launch {
-                                            scrollState.animateScrollToItem(index = 0)
-                                        }*/
-                        }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Face,
-                            contentDescription = "Icon Button"
-                        )
-                    }
-                }
-            )
-        }, bottomBar = bottomBar
-    ){
-        navController.currentDestination?.arguments?.entries?.first()?.value?.defaultValue.toString().toScreen(mainViewModel = mainViewModel)
-    }
+    navController.currentDestination?.arguments?.entries?.first()?.value?.defaultValue.toString().ToScreen(mainViewModel = mainViewModel)
+
+    MainView(
+        coroutineScope = coroutineScope,
+        scrollState = scrollState,
+        bottomBar = bottomBar
+    )
 }
 
 @Composable
-private fun String.toScreen(mainViewModel: MainViewModel) {
+fun String.ToScreen(mainViewModel: MainViewModel) {
     when (this) {
         "Heroes" -> HeroesScreen(viewModel = mainViewModel) {}
         "Teams" -> TeamsScreen(viewModel = mainViewModel) {}
@@ -157,5 +125,16 @@ private fun currentRoute(navController: NavHostController): String? {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    Dota2ComposeTheme {}
+    Dota2ComposeTheme {
+        MainView(
+            coroutineScope = rememberCoroutineScope(),
+            scrollState = rememberScrollState(),
+            bottomBar = {
+                Dota2ComposeBottomNavigation(
+                    navController = rememberNavController(),
+                    items = listOf(Screens.HeroesScreen, Screens.TeamsScreen)
+                )
+            }
+        )
+    }
 }
