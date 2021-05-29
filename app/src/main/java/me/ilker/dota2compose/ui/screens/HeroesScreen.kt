@@ -4,14 +4,12 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
@@ -45,18 +43,16 @@ import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
 
 @Composable
-fun HeroesScreen(viewModel: MainViewModel/*, function: () -> Unit*/) {
+fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
     val state by viewModel.state.collectAsState()
     val coroutineScope = rememberCoroutineScope()
 
     viewModel.getHeroes()
 
     when (state) {
-        is HeroState.Success -> Box {
-            LazyColumn {
-                items((state as HeroState.Success).heroes) { hero ->
-                    HeroCard(hero = hero)
-                }
+        is HeroState.Success -> LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
+            items((state as HeroState.Success).heroes) { hero ->
+                HeroCard(hero = hero)
             }
         }
         is HeroState.Error -> Toast.makeText(
