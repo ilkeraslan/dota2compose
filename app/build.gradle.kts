@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
     defaultConfig {
         applicationId = "me.ilker.dota2compose"
-        minSdkVersion(23)
-        targetSdkVersion(30)
+        minSdk = 23
+        targetSdk = 30
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -29,35 +29,38 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta02"
+        kotlinCompilerExtensionVersion = "1.0.0-beta07"
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.accompanist:accompanist-coil:0.7.1")
+    implementation("androidx.core:core-ktx:1.5.0")
+    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("com.google.accompanist:accompanist-coil:0.10.0")
     implementation("com.google.android.material:material:1.3.0")
-    implementation("androidx.compose.ui:ui:1.0.0-beta04")
-    implementation("androidx.compose.runtime:runtime:1.0.0-beta04")
-    implementation("androidx.compose.material:material:1.0.0-beta04")
-    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta04")
-    implementation("androidx.navigation:navigation-compose:1.0.0-alpha10")
+
+    implementation("androidx.compose.compiler:compiler:1.0.0-beta07")
+    implementation("androidx.compose.ui:ui:1.0.0-beta07")
+    implementation("androidx.compose.runtime:runtime:1.0.0-beta07")
+    implementation("androidx.compose.material:material:1.0.0-beta07")
+    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta07")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha01")
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.0-alpha06")
+    implementation("androidx.activity:activity-compose:1.3.0-alpha08")
+
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-    implementation("com.google.dagger:hilt-android:2.33-beta")
-    kapt("com.google.dagger:hilt-compiler:2.33-beta")
+    implementation("com.google.dagger:hilt-android:2.36")
+    kapt("com.google.dagger:hilt-compiler:2.36")
 
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")

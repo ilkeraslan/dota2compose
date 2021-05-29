@@ -1,6 +1,7 @@
 package me.ilker.dota2compose.ui
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -22,6 +23,7 @@ import me.ilker.dota2compose.ui.theme.Teal200
 @Composable
 fun MainView(coroutineScope: CoroutineScope, scrollState: ScrollState, bottomBar: @Composable () -> Unit) {
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = { Text(text = "dota2compose", color = Color.White) },

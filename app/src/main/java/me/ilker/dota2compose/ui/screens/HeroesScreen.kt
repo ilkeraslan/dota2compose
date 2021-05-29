@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,6 +27,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -36,24 +36,27 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.coil.CoilImage
+import coil.transform.CircleCropTransformation
+import com.google.accompanist.coil.rememberCoilPainter
+import com.google.accompanist.imageloading.ImageLoadState
 import me.ilker.dota2compose.HeroState
 import me.ilker.dota2compose.MainViewModel
 import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
 
 @Composable
-fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
+fun HeroesScreen(viewModel: MainViewModel/*, function: () -> Unit*/) {
     val state by viewModel.state.collectAsState()
-    val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
     viewModel.getHeroes()
 
     when (state) {
-        is HeroState.Success -> LazyColumn(state = scrollState) {
-            items((state as HeroState.Success).heroes) { hero ->
-                HeroCard(hero = hero)
+        is HeroState.Success -> Box {
+            LazyColumn {
+                items((state as HeroState.Success).heroes) { hero ->
+                    HeroCard(hero = hero)
+                }
             }
         }
         is HeroState.Error -> Toast.makeText(
@@ -66,6 +69,12 @@ fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
 
 @Composable
 fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
+    val painter = rememberCoilPainter(
+        request = "https://api.opendota.com".plus(hero.img),
+        requestBuilder = {
+            transformations(CircleCropTransformation())
+        }
+    )
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -74,26 +83,19 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CoilImage(
-            data = "https://api.opendota.com".plus(hero.img),
-            contentDescription = "image",
-            contentScale = ContentScale.Fit,
-            modifier = modifier
-                .height(64.dp)
-                .padding(8.dp),
-            loading = {
-                Box(modifier.matchParentSize()) {
-                    CircularProgressIndicator(Modifier.align(Alignment.Center))
-                }
-            },
-            error = {
-                Image(
-                    painter = painterResource(R.drawable.ic_error),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = null
-                )
-            }
-        )
+        when (painter.loadState) {
+            is ImageLoadState.Loading -> CircularProgressIndicator(Modifier.align(CenterVertically))
+            is ImageLoadState.Error -> Image(
+                painter = painterResource(R.drawable.ic_error),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+            is ImageLoadState.Success -> Image(
+                painter = painter,
+                contentDescription = "Hero image"
+            )
+        }
+
         Column(
             modifier = modifier.padding(start = 8.dp),
             verticalArrangement = Arrangement.Center
