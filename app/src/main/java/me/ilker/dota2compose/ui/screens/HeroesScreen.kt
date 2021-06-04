@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -47,20 +45,17 @@ import me.ilker.dota2compose.domain.Hero
 @ExperimentalMaterialApi
 @Composable
 fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
-    val state by viewModel.state.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
+    val heroState by viewModel.heroState.collectAsState()
 
-    viewModel.getHeroes()
-
-    when (state) {
+    when (heroState) {
         is HeroState.Success -> LazyColumn(modifier = Modifier.padding(bottom = 60.dp)) {
-            items((state as HeroState.Success).heroes) { hero ->
+            items((heroState as HeroState.Success).heroes) { hero ->
                 HeroCard(hero = hero)
             }
         }
         is HeroState.Error -> Toast.makeText(
             LocalContext.current,
-            (state as HeroState.Error).error.message,
+            (heroState as HeroState.Error).error.message,
             Toast.LENGTH_LONG
         ).show()
     }
@@ -76,14 +71,14 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
         }
     )
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 16.dp)
             .padding(top = 12.dp),
         backgroundColor = MaterialTheme.colors.background,
         onClick = { Log.i("CLICK", "OK") }
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 8.dp),
             verticalAlignment = CenterVertically,

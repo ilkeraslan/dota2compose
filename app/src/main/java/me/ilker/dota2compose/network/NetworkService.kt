@@ -6,4 +6,7 @@ interface NetworkService {
 
     @GET("heroStats")
     suspend fun getHeroes(): List<HeroResponse>
+
+    @GET("teams")
+    suspend fun getTeams(): List<TeamResponse>
 }

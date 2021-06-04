@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -47,8 +48,12 @@ sealed class Screens(val route: String, val label: String, val icon: ImageVector
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mainViewModel.getHeroes()
+        mainViewModel.getTeams()
 
         setContent {
             Dota2ComposeTheme {
@@ -58,11 +63,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 private fun MainScreen(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     val bottomNavigationItems = listOf(Screens.HeroesScreen, Screens.TeamsScreen)
-    val bottomBar: @Composable () -> Unit = { Dota2ComposeBottomNavigation(navController, bottomNavigationItems) }
+    val bottomBar: @Composable () -> Unit = { AppBottomNavigation(navController, bottomNavigationItems) }
 
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
@@ -120,6 +126,7 @@ private fun MainScreen(mainViewModel: MainViewModel) {
     navController.currentDestination?.arguments?.entries?.first()?.value?.defaultValue.toString().ToScreen(mainViewModel = mainViewModel)
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun String.ToScreen(mainViewModel: MainViewModel) {
     when (this) {
@@ -129,7 +136,7 @@ fun String.ToScreen(mainViewModel: MainViewModel) {
 }
 
 @Composable
-private fun Dota2ComposeBottomNavigation(
+private fun AppBottomNavigation(
     navController: NavHostController,
     items: List<Screens>
 ) {
