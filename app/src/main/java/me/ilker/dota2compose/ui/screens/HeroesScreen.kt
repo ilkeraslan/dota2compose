@@ -3,15 +3,15 @@ package me.ilker.dota2compose.ui.screens
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
@@ -27,10 +27,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -77,23 +75,30 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
             transformations(CircleCropTransformation())
         }
     )
-    Card(onClick = { Log.i("CLICK", "OK") }) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 12.dp),
+        backgroundColor = MaterialTheme.colors.background,
+        onClick = { Log.i("CLICK", "OK") }
+    ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(4.dp))
-                .background(MaterialTheme.colors.background)
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(all = 8.dp),
+            verticalAlignment = CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
             when (painter.loadState) {
                 is ImageLoadState.Loading -> CircularProgressIndicator(Modifier.align(CenterVertically))
                 is ImageLoadState.Error -> Image(
+                    modifier = Modifier.size(64.dp),
                     painter = painterResource(R.drawable.ic_error),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
                 is ImageLoadState.Success -> Image(
+                    modifier = Modifier.size(64.dp),
                     painter = painter,
                     contentDescription = "Hero image"
                 )
