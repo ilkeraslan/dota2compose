@@ -34,7 +34,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta07"
+        kotlinCompilerExtensionVersion = "1.0.0-beta08"
     }
 }
 
@@ -44,15 +44,15 @@ dependencies {
     implementation("com.google.accompanist:accompanist-coil:0.10.0")
     implementation("com.google.android.material:material:1.3.0")
 
-    implementation("androidx.compose.compiler:compiler:1.0.0-beta07")
-    implementation("androidx.compose.ui:ui:1.0.0-beta07")
-    implementation("androidx.compose.runtime:runtime:1.0.0-beta07")
-    implementation("androidx.compose.material:material:1.0.0-beta07")
-    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta07")
-    implementation("androidx.navigation:navigation-compose:2.4.0-alpha01")
+    implementation("androidx.compose.compiler:compiler:1.0.0-beta08")
+    implementation("androidx.compose.ui:ui:1.0.0-beta08")
+    implementation("androidx.compose.runtime:runtime:1.0.0-beta08")
+    implementation("androidx.compose.material:material:1.0.0-beta08")
+    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta08")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha02")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.0-alpha08")
+    implementation("androidx.activity:activity-compose:1.3.0-beta01")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
