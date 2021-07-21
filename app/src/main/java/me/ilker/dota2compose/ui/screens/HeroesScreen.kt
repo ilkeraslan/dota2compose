@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,8 +24,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -38,28 +39,30 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import me.ilker.dota2compose.HeroState
-import me.ilker.dota2compose.MainViewModel
 import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
+import me.ilker.dota2compose.presenter.HeroesState
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
-    val heroState by viewModel.heroState.collectAsState()
-
+fun HeroesScreen(
+    heroState: HeroesState = HeroesState.Empty,
+    requestReload: () -> Unit
+) {
     when (heroState) {
-        is HeroState.Success -> LazyColumn(modifier = Modifier.padding(bottom = 60.dp)) {
-            items((heroState as HeroState.Success).heroes) { hero ->
+        HeroesState.Empty -> { requestReload() }
+        is HeroesState.Error -> Toast.makeText(
+            LocalContext.current,
+            heroState.error.message,
+            Toast.LENGTH_LONG
+        ).show()
+        is HeroesState.Loaded -> LazyColumn(modifier = Modifier.padding(bottom = 60.dp)) {
+            items(heroState.heroes) { hero ->
                 HeroCard(hero = hero)
             }
         }
-        is HeroState.Error -> Toast.makeText(
-            LocalContext.current,
-            (heroState as HeroState.Error).error.message,
-            Toast.LENGTH_LONG
-        ).show()
+        HeroesState.Loading -> Box { CircularProgressIndicator(Modifier.align(Center)) }
     }
 }
 

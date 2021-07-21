@@ -7,19 +7,9 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import me.ilker.dota2compose.domain.Hero
-import me.ilker.dota2compose.domain.Team
 import me.ilker.dota2compose.network.NetworkService
-
-sealed class HeroState {
-    data class Success(val heroes: List<Hero>) : HeroState()
-    data class Error(val error: Throwable) : HeroState()
-}
-
-sealed class TeamState {
-    data class Success(val teams: List<Team>) : TeamState()
-    data class Error(val error: Throwable) : TeamState()
-}
+import me.ilker.dota2compose.presenter.HeroesState
+import me.ilker.dota2compose.presenter.TeamsState
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -30,9 +20,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val heroes = apiService.getHeroes().map { it.toDomain() }
-                _heroState.value = HeroState.Success(heroes)
+                _heroState.value = HeroesState.Loaded(heroes)
             } catch (e: Exception) {
-                _heroState.value = HeroState.Error(e)
+                _heroState.value = HeroesState.Error(e)
             }
         }
     }
@@ -41,19 +31,19 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val teams = apiService.getTeams().map { it.toDomain() }
-                _teamState.value = TeamState.Success(teams)
+                _teamState.value = TeamsState.Loaded(teams)
             } catch (e: Exception) {
-                _teamState.value = TeamState.Error(e)
+                _teamState.value = TeamsState.Error(e)
             }
         }
     }
 
-    private val _heroState = MutableStateFlow<HeroState>(HeroState.Success(mutableListOf()))
-    private val _teamState = MutableStateFlow<TeamState>(TeamState.Success(mutableListOf()))
+    private val _heroState = MutableStateFlow<HeroesState>(HeroesState.Empty)
+    private val _teamState = MutableStateFlow<TeamsState>(TeamsState.Empty)
 
-    val heroState: StateFlow<HeroState>
+    val heroState: StateFlow<HeroesState>
         get() = _heroState
 
-    val teamState: StateFlow<TeamState>
+    val teamState: StateFlow<TeamsState>
         get() = _teamState
 }
