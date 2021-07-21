@@ -41,7 +41,7 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("com.google.accompanist:accompanist-coil:0.10.0")
+    implementation("io.coil-kt:coil-compose:1.3.0")
     implementation("com.google.android.material:material:1.4.0")
 
     implementation("androidx.compose.compiler:compiler:1.0.0-rc02")

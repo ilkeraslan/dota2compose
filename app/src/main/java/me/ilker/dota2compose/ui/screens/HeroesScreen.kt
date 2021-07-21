@@ -34,14 +34,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
-import com.google.accompanist.coil.rememberCoilPainter
-import com.google.accompanist.imageloading.ImageLoadState
 import me.ilker.dota2compose.HeroState
 import me.ilker.dota2compose.MainViewModel
 import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
@@ -61,15 +63,20 @@ fun HeroesScreen(viewModel: MainViewModel, function: () -> Unit) {
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
-    val painter = rememberCoilPainter(
-        request = "https://api.opendota.com".plus(hero.img),
-        requestBuilder = {
+fun HeroCard(
+    modifier: Modifier = Modifier,
+    hero: Hero,
+    painter: ImagePainter = rememberImagePainter(
+        data = "https://api.opendota.com".plus(hero.img),
+        builder = {
+            placeholder(R.drawable.ic_error)
             transformations(CircleCropTransformation())
         }
     )
+) {
     Card(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -84,18 +91,23 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
             verticalAlignment = CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            when (painter.loadState) {
-                is ImageLoadState.Loading -> CircularProgressIndicator(Modifier.align(CenterVertically))
-                is ImageLoadState.Error -> Image(
+            when (painter.state) {
+                ImagePainter.State.Empty -> Image(
+                    modifier = Modifier.size(64.dp),
+                    painter = painter,
+                    contentDescription = "Hero image"
+                )
+                is ImagePainter.State.Loading -> CircularProgressIndicator(Modifier.align(CenterVertically))
+                is ImagePainter.State.Success -> Image(
+                    modifier = Modifier.size(64.dp),
+                    painter = painter,
+                    contentDescription = "Hero image"
+                )
+                is ImagePainter.State.Error -> Image(
                     modifier = Modifier.size(64.dp),
                     painter = painterResource(R.drawable.ic_error),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
-                )
-                is ImageLoadState.Success -> Image(
-                    modifier = Modifier.size(64.dp),
-                    painter = painter,
-                    contentDescription = "Hero image"
                 )
             }
 
@@ -119,6 +131,7 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Preview
 @Composable
