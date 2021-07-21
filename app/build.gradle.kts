@@ -39,20 +39,20 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.5.0")
+    implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("com.google.accompanist:accompanist-coil:0.10.0")
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.material:material:1.4.0")
 
-    implementation("androidx.compose.compiler:compiler:1.0.0-beta08")
-    implementation("androidx.compose.ui:ui:1.0.0-beta08")
-    implementation("androidx.compose.runtime:runtime:1.0.0-beta08")
-    implementation("androidx.compose.material:material:1.0.0-beta08")
-    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta08")
-    implementation("androidx.navigation:navigation-compose:2.4.0-alpha02")
+    implementation("androidx.compose.compiler:compiler:1.0.0-rc02")
+    implementation("androidx.compose.ui:ui:1.0.0-rc02")
+    implementation("androidx.compose.runtime:runtime:1.0.0-rc02")
+    implementation("androidx.compose.material:material:1.0.0-rc02")
+    implementation("androidx.compose.ui:ui-tooling:1.0.0-rc02")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha04")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.0-beta01")
+    implementation("androidx.activity:activity-compose:1.3.0-rc02")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
@@ -63,6 +63,6 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.36")
 
     testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
