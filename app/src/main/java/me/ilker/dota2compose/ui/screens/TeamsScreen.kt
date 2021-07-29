@@ -1,5 +1,7 @@
 package me.ilker.dota2compose.ui.screens
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -70,7 +72,16 @@ fun TeamCard(team: Team, modifier: Modifier = Modifier) {
 }
 
 @ExperimentalMaterialApi
-@Preview
+@Preview(
+    uiMode = UI_MODE_NIGHT_NO,
+    showBackground = true,
+    name = "Light Mode"
+)
+@Preview(
+    uiMode = UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
 @Composable
 fun TeamCardPreview() {
     TeamCard(
