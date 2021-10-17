@@ -1,17 +1,12 @@
 package me.ilker.dota2compose.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,11 +21,18 @@ fun BottomSheet(
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
     ),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     BottomSheetScaffold(
         modifier = modifier,
-        sheetContent = { BottomSheetContent() },
+        sheetContent = {
+            BottomSheetContent(
+                onConfirm = onConfirm,
+                onCancel = onCancel
+            )
+        },
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
@@ -52,7 +54,11 @@ fun BottomSheet(
 }
 
 @Composable
-private fun BottomSheetContent(modifier: Modifier = Modifier) {
+private fun BottomSheetContent(
+    modifier: Modifier = Modifier,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit
+) {
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
@@ -65,14 +71,14 @@ private fun BottomSheetContent(modifier: Modifier = Modifier) {
         Column(modifier = modifier.fillMaxWidth()) {
             TextButton(
                 modifier = modifier.fillMaxWidth(),
-                onClick = { /*TODO*/ }
+                onClick = onConfirm
             ) {
                 Text(text = "OK")
             }
             Spacer(modifier = Modifier.height(10.dp))
             TextButton(
                 modifier = modifier.fillMaxWidth(),
-                onClick = { /*TODO*/ }
+                onClick = onCancel
             ) {
                 Text(text = "CANCEL")
             }
@@ -98,6 +104,8 @@ fun BottomSheetPreview() {
         scaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Expanded)
         ),
+        onConfirm = {},
+        onCancel = {},
         content = {
             Text(
                 text = "Content Title",
