@@ -53,10 +53,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun MainScreen() {
     val navController = rememberNavController()
-    val bottomBar: @Composable () -> Unit = { AppBottomNavigation(navController = navController, items = bottomNavItems) }
-
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
+
+    val bottomBar: @Composable () -> Unit = {
+        AppBottomNavigation(
+            navController = navController,
+            items = bottomNavItems
+        )
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -90,7 +95,8 @@ private fun MainScreen() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.HeroesScreen.route
+            startDestination = Screen.HeroesScreen.route,
+            modifier = Modifier
         ) {
             HeroesScreenFactory().create(
                 navGraphBuilder = this,

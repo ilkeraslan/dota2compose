@@ -21,7 +21,6 @@ class HeroesScreenFactory : NavFactory {
             val heroState by mainViewModel.heroState.collectAsState()
 
             HeroesScreen(heroState) {
-//                navController.navigate(Screen.HeroesScreen.route + "/${it.destination.id}")
                 mainViewModel.getHeroes()
             }
         }

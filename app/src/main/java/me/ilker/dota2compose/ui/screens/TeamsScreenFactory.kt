@@ -19,7 +19,6 @@ class TeamsScreenFactory : NavFactory {
             val teamsState by mainViewModel.teamState.collectAsState()
 
             TeamsScreen(teamsState) {
-//                navController.navigate(Screen.TeamsScreen.route + "/${it.destination.id}")
                 mainViewModel.getTeams()
             }
         }
