@@ -10,14 +10,13 @@ An app to show dota2 related information using JetpackCompose.
 The data is provided by [OpenDota API](https://docs.opendota.com/).
 
 ### Stack
-- JetpackCompose 1.0.0-beta08
+- JetpackCompose 1.0.4
 - Accompanist Coil
 - Coroutines and StateFlow
 - Hilt
 - OkHttp
 - Retrofit
 - kotlinx.serialization
-- Coil
 
 ### Contributing
 

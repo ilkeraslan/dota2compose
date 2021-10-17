@@ -4,13 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +35,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import me.ilker.dota2compose.DOTA_API
 import me.ilker.dota2compose.R
 import me.ilker.dota2compose.domain.Hero
 import me.ilker.dota2compose.presenter.HeroesState
@@ -53,7 +48,9 @@ fun HeroesScreen(
     requestReload: () -> Unit
 ) {
     when (heroState) {
-        HeroesState.Empty -> { requestReload() }
+        HeroesState.Empty -> {
+            requestReload()
+        }
         is HeroesState.Error -> Toast.makeText(
             LocalContext.current,
             heroState.error.message,
@@ -75,7 +72,7 @@ fun HeroCard(
     modifier: Modifier = Modifier,
     hero: Hero,
     painter: ImagePainter = rememberImagePainter(
-        data = "https://api.opendota.com".plus(hero.img),
+        data = DOTA_API.plus(hero.img),
         builder = {
             placeholder(R.drawable.ic_error)
             transformations(CircleCropTransformation())
@@ -103,7 +100,11 @@ fun HeroCard(
                     painter = painter,
                     contentDescription = "Hero image"
                 )
-                is ImagePainter.State.Loading -> CircularProgressIndicator(Modifier.align(CenterVertically))
+                is ImagePainter.State.Loading -> CircularProgressIndicator(
+                    Modifier.align(
+                        CenterVertically
+                    )
+                )
                 is ImagePainter.State.Success -> Image(
                     modifier = Modifier.size(64.dp),
                     painter = painter,
@@ -117,21 +118,21 @@ fun HeroCard(
                 )
             }
 
+            Spacer(modifier = Modifier.width(8.dp))
+
             Column(
-                modifier = modifier.padding(start = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = hero.localizedName ?: "",
                     fontWeight = FontWeight.Bold
                 )
-                Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Icon")
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = hero.primaryAttr ?: "",
-                        style = TextStyle.Default
-                    )
-                }
+                Text(
+                    text = hero.primaryAttr ?: "",
+                    style = TextStyle.Default
+                )
             }
         }
     }
