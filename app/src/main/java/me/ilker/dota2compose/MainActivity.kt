@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -32,11 +33,12 @@ import me.ilker.dota2compose.ui.screens.HeroesScreenFactory
 import me.ilker.dota2compose.ui.screens.TeamsScreenFactory
 import me.ilker.dota2compose.ui.theme.Dota2ComposeTheme
 
+@ExperimentalUnitApi
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @ExperimentalCoilApi
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,6 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalUnitApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable

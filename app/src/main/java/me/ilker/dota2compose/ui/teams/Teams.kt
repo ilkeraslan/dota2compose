@@ -1,15 +1,13 @@
 package me.ilker.dota2compose.ui.teams
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -32,16 +30,10 @@ internal fun Teams(
         modifier = Modifier,
         scope = scope,
         scaffoldState = scaffoldState,
-        onConfirm = {
-            scope.launch {
-                scaffoldState.bottomSheetState.collapse()
-            }
-        },
-        onCancel = {
-            scope.launch {
-                scaffoldState.bottomSheetState.collapse()
-            }
-        },
+        sheetContent = sheetContent(
+            scope = scope,
+            scaffoldState = scaffoldState
+        ),
         content = {
             BottomSheetContent(
                 teamsState = teamsState,
@@ -50,6 +42,42 @@ internal fun Teams(
             )
         }
     )
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun sheetContent(
+    scope: CoroutineScope,
+    scaffoldState: BottomSheetScaffoldState
+): @Composable (ColumnScope.() -> Unit) = {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 60.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        TextButton(
+            modifier = Modifier.align(CenterHorizontally),
+            onClick = {
+                scope.launch {
+                    scaffoldState.bottomSheetState.expand()
+                }
+            }
+        ) {
+            Text(text = "OK")
+        }
+
+        TextButton(
+            modifier = Modifier.align(CenterHorizontally),
+            onClick = {
+                scope.launch {
+                    scaffoldState.bottomSheetState.collapse()
+                }
+            }
+        ) {
+            Text(text = "CANCEL")
+        }
+    }
 }
 
 @ExperimentalUnitApi
@@ -82,7 +110,8 @@ private fun BottomSheetContent(
 /*
  * Previews
  */
-private val teams = listOf(
+private
+val teams = listOf(
     Team(
         lastMatchTime = 0,
         losses = 10,
