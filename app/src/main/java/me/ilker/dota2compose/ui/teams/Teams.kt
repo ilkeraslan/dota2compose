@@ -60,7 +60,7 @@ private fun sheetContent(
             modifier = Modifier.align(CenterHorizontally),
             onClick = {
                 scope.launch {
-                    scaffoldState.bottomSheetState.expand()
+                    scaffoldState.bottomSheetState.collapse()
                 }
             }
         ) {

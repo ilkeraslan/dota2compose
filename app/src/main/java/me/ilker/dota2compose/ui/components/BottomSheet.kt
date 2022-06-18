@@ -77,7 +77,7 @@ fun BottomSheetPreview() {
                 TextButton(
                     onClick = {
                         scope.launch {
-                            scaffoldState.bottomSheetState.expand()
+                            scaffoldState.bottomSheetState.collapse()
                         }
                     }
                 ) {
