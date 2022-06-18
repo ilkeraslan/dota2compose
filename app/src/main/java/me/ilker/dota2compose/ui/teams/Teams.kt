@@ -1,14 +1,16 @@
 package me.ilker.dota2compose.ui.teams
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -16,6 +18,7 @@ import me.ilker.dota2compose.domain.Team
 import me.ilker.dota2compose.presenter.TeamsState
 import me.ilker.dota2compose.ui.components.BottomSheet
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
 internal fun Teams(
@@ -27,16 +30,10 @@ internal fun Teams(
         modifier = Modifier,
         scope = scope,
         scaffoldState = scaffoldState,
-        onConfirm = {
-            scope.launch {
-                scaffoldState.bottomSheetState.collapse()
-            }
-        },
-        onCancel = {
-            scope.launch {
-                scaffoldState.bottomSheetState.collapse()
-            }
-        },
+        sheetContent = sheetContent(
+            scope = scope,
+            scaffoldState = scaffoldState
+        ),
         content = {
             BottomSheetContent(
                 teamsState = teamsState,
@@ -49,6 +46,43 @@ internal fun Teams(
 
 @ExperimentalMaterialApi
 @Composable
+private fun sheetContent(
+    scope: CoroutineScope,
+    scaffoldState: BottomSheetScaffoldState
+): @Composable (ColumnScope.() -> Unit) = {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 60.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        TextButton(
+            modifier = Modifier.align(CenterHorizontally),
+            onClick = {
+                scope.launch {
+                    scaffoldState.bottomSheetState.collapse()
+                }
+            }
+        ) {
+            Text(text = "OK")
+        }
+
+        TextButton(
+            modifier = Modifier.align(CenterHorizontally),
+            onClick = {
+                scope.launch {
+                    scaffoldState.bottomSheetState.collapse()
+                }
+            }
+        ) {
+            Text(text = "CANCEL")
+        }
+    }
+}
+
+@ExperimentalUnitApi
+@ExperimentalMaterialApi
+@Composable
 private fun BottomSheetContent(
     modifier: Modifier = Modifier,
     teamsState: TeamsState.Loaded,
@@ -56,8 +90,13 @@ private fun BottomSheetContent(
     scaffoldState: BottomSheetScaffoldState
 ) {
     LazyColumn(
-        modifier = modifier.padding(bottom = 60.dp)
+        modifier = modifier.padding(bottom = 60.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        item {
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
         items(teamsState.teams) { team ->
             Team(team = team) {
                 scope.launch {
@@ -71,7 +110,8 @@ private fun BottomSheetContent(
 /*
  * Previews
  */
-private val teams = listOf(
+private
+val teams = listOf(
     Team(
         lastMatchTime = 0,
         losses = 10,
@@ -92,6 +132,7 @@ private val teams = listOf(
     )
 )
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_NO,

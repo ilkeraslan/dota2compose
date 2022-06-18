@@ -21,18 +21,12 @@ fun BottomSheet(
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
     ),
-    content: @Composable () -> Unit,
-    onConfirm: () -> Unit,
-    onCancel: () -> Unit,
+    sheetContent: @Composable ColumnScope.() -> Unit,
+    content: @Composable () -> Unit
 ) {
     BottomSheetScaffold(
         modifier = modifier,
-        sheetContent = {
-            BottomSheetContent(
-                onConfirm = onConfirm,
-                onCancel = onCancel
-            )
-        },
+        sheetContent = sheetContent,
         scaffoldState = scaffoldState,
         sheetPeekHeight = 0.dp,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
@@ -53,40 +47,6 @@ fun BottomSheet(
     }
 }
 
-@Composable
-private fun BottomSheetContent(
-    modifier: Modifier = Modifier,
-    onConfirm: () -> Unit,
-    onCancel: () -> Unit
-) {
-    Column(
-        modifier = Modifier.padding(horizontal = 20.dp)
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Title")
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "A long warning description to make sure that the user knows what is going on")
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Column(modifier = modifier.fillMaxWidth()) {
-            TextButton(
-                modifier = modifier.fillMaxWidth(),
-                onClick = onConfirm
-            ) {
-                Text(text = "OK")
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            TextButton(
-                modifier = modifier.fillMaxWidth(),
-                onClick = onCancel
-            ) {
-                Text(text = "CANCEL")
-            }
-            Spacer(modifier = Modifier.height(80.dp))
-        }
-    }
-}
-
 @ExperimentalMaterialApi
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
@@ -100,12 +60,41 @@ private fun BottomSheetContent(
 )
 @Composable
 fun BottomSheetPreview() {
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
+
     BottomSheet(
         scaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Expanded)
         ),
-        onConfirm = {},
-        onCancel = {},
+        sheetContent = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            scaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                ) {
+                    Text(text = "OK")
+                }
+
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            scaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                ) {
+                    Text(text = "CANCEL")
+                }
+            }
+        },
         content = {
             Text(
                 text = "Content Title",

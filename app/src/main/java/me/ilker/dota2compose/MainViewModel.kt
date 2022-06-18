@@ -30,7 +30,13 @@ class MainViewModel @Inject constructor(
     fun getTeams() {
         viewModelScope.launch {
             try {
-                val teams = apiService.getTeams().map { it.toDomain() }
+                val teams = apiService
+                    .getTeams()
+                    .map { teamResponse ->
+                        teamResponse.toDomain()
+                    }.sortedByDescending { team ->
+                        team.wins
+                    }
                 _teamState.value = TeamsState.Loaded(teams)
             } catch (e: Exception) {
                 _teamState.value = TeamsState.Error(e)
