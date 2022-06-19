@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import me.ilker.dota2compose.domain.Team
+import me.ilker.dota2compose.model.domain.Team
 import me.ilker.dota2compose.presenter.TeamsState
 import me.ilker.dota2compose.ui.components.BottomSheet
 

@@ -37,7 +37,7 @@ import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import me.ilker.dota2compose.DOTA_API
 import me.ilker.dota2compose.R
-import me.ilker.dota2compose.domain.Hero
+import me.ilker.dota2compose.model.domain.Hero
 import me.ilker.dota2compose.presenter.HeroesState
 
 @ExperimentalCoilApi

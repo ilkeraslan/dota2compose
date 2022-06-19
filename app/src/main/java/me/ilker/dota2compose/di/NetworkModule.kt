@@ -5,45 +5,47 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import me.ilker.dota2compose.network.NetworkService
+import me.ilker.dota2compose.NetworkService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
+@ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-    @OptIn(ExperimentalSerializationApi::class)
-    @Provides
-    @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient): NetworkService {
-        val contentType = "application/json".toMediaType()
-        return Retrofit.Builder()
-            .baseUrl("https://api.opendota.com/api/")
-            .client(okHttpClient)
-            .addConverterFactory(Json {
-                ignoreUnknownKeys = true
-            }.asConverterFactory(contentType))
-            .build()
-            .create(NetworkService::class.java)
+    private val json = Json {
+        ignoreUnknownKeys = true
     }
 
     @Provides
     @Singleton
-    fun providesOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor).build()
-    }
+    fun providesRetrofit(
+        okHttpClient: OkHttpClient
+    ): NetworkService = Retrofit.Builder()
+        .baseUrl("https://api.opendota.com/api/")
+        .client(okHttpClient)
+        .addConverterFactory(
+            json.asConverterFactory("application/json".toMediaType())
+        )
+        .build()
+        .create(NetworkService::class.java)
 
     @Provides
     @Singleton
-    fun providesLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
+    fun providesOkHttp(
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
+
+    @Provides
+    @Singleton
+    fun providesLoggingInterceptor() = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
 }

@@ -1,4 +1,4 @@
-package me.ilker.dota2compose.domain
+package me.ilker.dota2compose.model.domain
 
 data class Team(
     val lastMatchTime: Int,
