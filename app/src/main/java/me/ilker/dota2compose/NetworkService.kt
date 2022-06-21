@@ -18,4 +18,9 @@ interface NetworkService {
     suspend fun getTeamPlayers(
         @Path("team_id") teamID: String
     ): List<TeamPlayerResponse>
+
+    @GET("teams/{team_id}/heroes")
+    suspend fun getTeamHeroes(
+        @Path("team_id") teamID: String
+    ): List<TeamPlayerResponse>
 }
