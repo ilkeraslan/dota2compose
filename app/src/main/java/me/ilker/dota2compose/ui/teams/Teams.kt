@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package me.ilker.dota2compose.ui.teams
 
 import android.content.res.Configuration
@@ -6,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -15,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import me.ilker.dota2compose.model.domain.Team
+import me.ilker.dota2compose.presenter.TeamState
 import me.ilker.dota2compose.presenter.TeamsState
 import me.ilker.dota2compose.ui.components.BottomSheet
 
@@ -22,40 +26,73 @@ import me.ilker.dota2compose.ui.components.BottomSheet
 @ExperimentalMaterialApi
 @Composable
 internal fun Teams(
-    scope: CoroutineScope,
-    scaffoldState: BottomSheetScaffoldState,
-    teamsState: TeamsState.Loaded
+    teamsState: TeamsState.Loaded,
+    teamState: TeamState,
+    onTeamSelected: (Team) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberBottomSheetScaffoldState()
+
+    LaunchedEffect(teamState) {
+        if ((teamState is TeamState.Loaded) && teamState.infoVisible) {
+            scaffoldState.bottomSheetState.expand()
+        } else {
+            scaffoldState.bottomSheetState.collapse()
+        }
+    }
+
     BottomSheet(
         modifier = Modifier,
         scope = scope,
         scaffoldState = scaffoldState,
         sheetContent = sheetContent(
             scope = scope,
-            scaffoldState = scaffoldState
+            scaffoldState = scaffoldState,
+            content = teamDetails(
+                teamState = teamState
+            )
         ),
         content = {
             BottomSheetContent(
                 teamsState = teamsState,
-                scope = scope,
-                scaffoldState = scaffoldState
+                onSelect = onTeamSelected
             )
         }
     )
+}
+
+@Composable
+fun teamDetails(
+    modifier: Modifier = Modifier.fillMaxWidth().padding(20.dp),
+    teamState: TeamState
+): @Composable (() -> Unit) = {
+    LazyColumn(modifier = modifier) {
+        item {
+            when (teamState) {
+                TeamState.Empty -> Text(text = "Empty")
+                is TeamState.Error -> Text(text = "Error")
+                is TeamState.Loaded -> Text(text = "Loaded")
+                TeamState.Loading -> Text(text = "Loading")
+            }
+        }
+    }
 }
 
 @ExperimentalMaterialApi
 @Composable
 private fun sheetContent(
     scope: CoroutineScope,
-    scaffoldState: BottomSheetScaffoldState
+    scaffoldState: BottomSheetScaffoldState,
+    content: @Composable () -> Unit = {}
 ): @Composable (ColumnScope.() -> Unit) = {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 60.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        content()
+
         TextButton(
             modifier = Modifier.align(CenterHorizontally),
             onClick = {
@@ -83,11 +120,10 @@ private fun sheetContent(
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
-private fun BottomSheetContent(
+private fun <T> BottomSheetContent(
     modifier: Modifier = Modifier,
     teamsState: TeamsState.Loaded,
-    scope: CoroutineScope,
-    scaffoldState: BottomSheetScaffoldState
+    onSelect: (T) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.padding(bottom = 60.dp),
@@ -98,11 +134,10 @@ private fun BottomSheetContent(
         }
 
         items(teamsState.teams) { team ->
-            Team(team = team) {
-                scope.launch {
-                    scaffoldState.bottomSheetState.expand()
-                }
-            }
+            Team(
+                team = team,
+                onClick = { onSelect(team as T) }
+            )
         }
     }
 }
@@ -147,10 +182,8 @@ val teams = listOf(
 @Composable
 fun TeamsPreview() {
     Teams(
-        scope = rememberCoroutineScope(),
-        scaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
-        ),
-        teamsState = TeamsState.Loaded(teams = teams)
+        teamsState = TeamsState.Loaded(teams = teams),
+        onTeamSelected = {},
+        teamState = TeamState.Empty
     )
 }

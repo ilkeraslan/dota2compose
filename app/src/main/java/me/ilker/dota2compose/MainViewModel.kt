@@ -3,25 +3,47 @@ package me.ilker.dota2compose
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.internal.schedulers.IoScheduler
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.kotlin.toObservable
+import io.reactivex.rxjava3.kotlin.zipWith
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import me.ilker.dota2compose.model.domain.Team
 import me.ilker.dota2compose.presenter.HeroesState
+import me.ilker.dota2compose.presenter.TeamState
 import me.ilker.dota2compose.presenter.TeamsState
+import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val apiService: NetworkService
 ) : ViewModel() {
+    private var subscription = Disposable.disposed()
+
+    private val _heroesState = MutableStateFlow<HeroesState>(HeroesState.Empty)
+    private val _teamsState = MutableStateFlow<TeamsState>(TeamsState.Empty)
+    private val _teamState = MutableStateFlow<TeamState>(TeamState.Empty)
+
+    val heroesState: StateFlow<HeroesState>
+        get() = _heroesState
+
+    val teamsState: StateFlow<TeamsState>
+        get() = _teamsState
+
+    val teamState: StateFlow<TeamState>
+        get() = _teamState
 
     fun getHeroes() {
         viewModelScope.launch {
             try {
                 val heroes = apiService.getHeroes().map { it.toDomain() }
-                _heroState.value = HeroesState.Loaded(heroes)
+                _heroesState.value = HeroesState.Loaded(heroes)
             } catch (e: Exception) {
-                _heroState.value = HeroesState.Error(e)
+                _heroesState.value = HeroesState.Error(e)
             }
         }
     }
@@ -36,19 +58,51 @@ class MainViewModel @Inject constructor(
                     }.sortedByDescending { team ->
                         team.wins
                     }
-                _teamState.value = TeamsState.Loaded(teams)
+                _teamsState.value = TeamsState.Loaded(teams)
             } catch (e: Exception) {
-                _teamState.value = TeamsState.Error(e)
+                _teamsState.value = TeamsState.Error(e)
             }
         }
     }
 
-    private val _heroState = MutableStateFlow<HeroesState>(HeroesState.Empty)
-    private val _teamState = MutableStateFlow<TeamsState>(TeamsState.Empty)
+    fun getTeamData(team: Team) {
+        if (subscription.isDisposed) {
+            viewModelScope.launch {
+                val teamID = team.teamId.toString()
+                val teamPlayers = apiService.getTeamPlayers(teamID).toObservable()
+                val teamHeroes = apiService.getTeamHeroes(teamID).toObservable()
 
-    val heroState: StateFlow<HeroesState>
-        get() = _heroState
+                subscription = teamPlayers
+                    .zipWith(teamHeroes)
+                    .subscribeOn(IoScheduler())
+                    .observeOn(IoScheduler())
+                    .map { responsePair ->
+                        val players = responsePair.first.toDomain()
+                        val heroes = responsePair.second.toDomain()
+                        val updatedTeam = team.copy(
+                            players = listOf(players),
+                            heroes = listOf(heroes)
+                        )
 
-    val teamState: StateFlow<TeamsState>
-        get() = _teamState
+                        _teamState.value = TeamState.Loaded(
+                            team = updatedTeam,
+                            infoVisible = true
+                        )
+
+                        responsePair.first.name
+                            .plus(" ")
+                            .plus(responsePair.second.name)
+                    }
+                    .subscribeBy(
+                        onComplete = { println("SUBSCRIPTION COMPETED") },
+                        onError = { print("SUBSCRIPTION ERROR") },
+                        onNext = { result ->
+                            print("RESULT IS: $result")
+                        }
+                    )
+            }
+        }
+
+        subscription.dispose()
+    }
 }

@@ -21,9 +21,14 @@ class TeamsScreenFactory : NavFactory {
     ) {
         navGraphBuilder.composable(Screen.TeamsScreen.route) {
             val mainViewModel: MainViewModel = hiltViewModel()
-            val teamsState by mainViewModel.teamState.collectAsState()
+            val teamsState by mainViewModel.teamsState.collectAsState()
+            val teamState by mainViewModel.teamState.collectAsState()
 
-            TeamsScreen(teamsState) {
+            TeamsScreen(
+                teamsState = teamsState,
+                teamState = teamState,
+                onTeamSelected = { mainViewModel.getTeamData(it) }
+            ) {
                 mainViewModel.getTeams()
             }
         }

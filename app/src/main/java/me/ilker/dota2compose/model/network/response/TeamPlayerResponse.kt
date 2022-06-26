@@ -5,7 +5,7 @@ import me.ilker.dota2compose.model.domain.TeamPlayer
 
 @kotlinx.serialization.Serializable
 data class TeamPlayerResponse(
-    @SerialName("account_id") val accountID: Long,
+    @SerialName("account_id") val accountID: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("games_played") val gamesPlayed: Int,
     @SerialName("wins") val wins: Int,
