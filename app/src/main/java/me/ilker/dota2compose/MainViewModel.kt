@@ -38,6 +38,8 @@ class MainViewModel @Inject constructor(
         get() = _teamState
 
     fun getHeroes() {
+        _heroesState.value = HeroesState.Loading
+
         viewModelScope.launch {
             try {
                 val heroes = apiService.getHeroes().map { it.toDomain() }
@@ -49,6 +51,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun getTeams() {
+        _teamsState.value = TeamsState.Loading
+
         viewModelScope.launch {
             try {
                 val teams = apiService
@@ -93,13 +97,7 @@ class MainViewModel @Inject constructor(
                             .plus(" ")
                             .plus(responsePair.second.name)
                     }
-                    .subscribeBy(
-                        onComplete = { println("SUBSCRIPTION COMPETED") },
-                        onError = { print("SUBSCRIPTION ERROR") },
-                        onNext = { result ->
-                            print("RESULT IS: $result")
-                        }
-                    )
+                    .subscribe()
             }
         }
 
