@@ -18,7 +18,7 @@ class HeroesScreenFactory : NavFactory {
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(Screen.HeroesScreen.route) {
             val mainViewModel: MainViewModel = hiltViewModel()
-            val heroState by mainViewModel.heroState.collectAsState()
+            val heroState by mainViewModel.heroesState.collectAsState()
 
             HeroesScreen(heroState) {
                 mainViewModel.getHeroes()

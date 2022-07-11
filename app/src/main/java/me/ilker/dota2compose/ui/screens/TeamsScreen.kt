@@ -3,16 +3,18 @@ package me.ilker.dota2compose.ui.screens
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import me.ilker.dota2compose.domain.Team
+import me.ilker.dota2compose.model.domain.Team
+import me.ilker.dota2compose.presenter.TeamState
 import me.ilker.dota2compose.presenter.TeamsState
 import me.ilker.dota2compose.ui.teams.Team
 import me.ilker.dota2compose.ui.teams.Teams
@@ -22,13 +24,10 @@ import me.ilker.dota2compose.ui.teams.Teams
 @Composable
 fun TeamsScreen(
     teamsState: TeamsState = TeamsState.Empty,
+    teamState: TeamState = TeamState.Empty,
+    onTeamSelected: (Team) -> Unit,
     requestReload: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
-    )
-
     when (teamsState) {
         TeamsState.Empty -> requestReload()
         is TeamsState.Error -> Toast.makeText(
@@ -37,15 +36,19 @@ fun TeamsScreen(
             Toast.LENGTH_LONG
         ).show()
         is TeamsState.Loaded -> Teams(
-            scope = scope,
-            scaffoldState = scaffoldState,
-            teamsState = teamsState
+            teamsState = teamsState,
+            teamState = teamState,
+            onTeamSelected = onTeamSelected
         )
-        TeamsState.Loading -> Box { CircularProgressIndicator(Modifier.align(Alignment.Center)) }
+        TeamsState.Loading -> Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(Modifier.align(Alignment.Center))
+        }
     }
 }
 
-/*
+/**
  * Previews
  */
 @ExperimentalUnitApi

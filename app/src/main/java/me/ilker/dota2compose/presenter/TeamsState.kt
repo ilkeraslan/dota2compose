@@ -1,6 +1,6 @@
 package me.ilker.dota2compose.presenter
 
-import me.ilker.dota2compose.domain.Team
+import me.ilker.dota2compose.model.domain.Team
 
 sealed class TeamsState {
     object Empty : TeamsState()

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -37,7 +38,7 @@ import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import me.ilker.dota2compose.DOTA_API
 import me.ilker.dota2compose.R
-import me.ilker.dota2compose.domain.Hero
+import me.ilker.dota2compose.model.domain.Hero
 import me.ilker.dota2compose.presenter.HeroesState
 
 @ExperimentalCoilApi
@@ -61,7 +62,11 @@ fun HeroesScreen(
                 HeroCard(hero = hero)
             }
         }
-        HeroesState.Loading -> Box { CircularProgressIndicator(Modifier.align(Center)) }
+        HeroesState.Loading -> Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(Modifier.align(Alignment.Center))
+        }
     }
 }
 

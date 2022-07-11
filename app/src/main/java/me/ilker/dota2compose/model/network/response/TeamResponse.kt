@@ -1,8 +1,8 @@
-package me.ilker.dota2compose.network
+package me.ilker.dota2compose.model.network.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.ilker.dota2compose.domain.Team
+import me.ilker.dota2compose.model.domain.Team
 
 @Serializable
 data class TeamResponse(

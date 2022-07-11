@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
-import me.ilker.dota2compose.domain.Team
+import me.ilker.dota2compose.model.domain.Team
 
 @ExperimentalUnitApi
 @ExperimentalMaterialApi

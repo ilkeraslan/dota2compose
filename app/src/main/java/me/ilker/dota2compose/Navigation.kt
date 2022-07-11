@@ -8,15 +8,23 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
 interface NavFactory {
-    fun create(navGraphBuilder: NavGraphBuilder, navController: NavController)
+    fun create(
+        navGraphBuilder: NavGraphBuilder,
+        navController: NavController
+    )
 }
 
-sealed class Screen(val route: String, val label: String, val icon: ImageVector? = null) {
+sealed class Screen(
+    val route: String,
+    val label: String,
+    val icon: ImageVector? = null
+) {
     object HeroesScreen : Screen(
         route = "Heroes",
         label = "Heroes",
         icon = Icons.Outlined.Person
     )
+
     object TeamsScreen : Screen(
         route = "Teams",
         label = "Teams",

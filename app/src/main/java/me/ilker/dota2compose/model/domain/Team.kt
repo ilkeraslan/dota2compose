@@ -1,4 +1,4 @@
-package me.ilker.dota2compose.domain
+package me.ilker.dota2compose.model.domain
 
 data class Team(
     val lastMatchTime: Int,
@@ -7,5 +7,7 @@ data class Team(
     val rating: Float,
     val tag: String,
     val teamId: Int,
-    val wins: Int
+    val wins: Int,
+    val players: List<TeamPlayer>? = null,
+    val heroes: List<TeamHero>? = null
 )
