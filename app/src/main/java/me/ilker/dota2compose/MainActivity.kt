@@ -4,21 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Face
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -28,7 +16,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import me.ilker.dota2compose.ui.screens.HeroesScreenFactory
 import me.ilker.dota2compose.ui.screens.TeamsScreenFactory
 import me.ilker.dota2compose.ui.theme.Dota2ComposeTheme
@@ -56,8 +43,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun MainScreen() {
     val navController = rememberNavController()
-    val coroutineScope = rememberCoroutineScope()
-    val scrollState = rememberScrollState()
 
     val bottomBar: @Composable () -> Unit = {
         AppBottomNavigation(
@@ -71,27 +56,8 @@ private fun MainScreen() {
         topBar = {
             TopAppBar(
                 title = { Text(text = "dota2compose", color = Color.White) },
-                backgroundColor = Color.LightGray,
-                actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Outlined.CheckCircle,
-                            contentDescription = "Icon Button"
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-                            coroutineScope.launch {
-                                scrollState.animateScrollTo(0)
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Face,
-                            contentDescription = "Icon Button"
-                        )
-                    }
-                }
+                backgroundColor = Color(0XFFA30900),
+                actions = {}
             )
         },
         bottomBar = bottomBar
@@ -119,7 +85,7 @@ private fun AppBottomNavigation(
     items: List<BottomNavItem>
 ) {
     BottomNavigation(
-        backgroundColor = Color.LightGray,
+        backgroundColor = Color(0XFFA30900),
         contentColor = Color.White
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
