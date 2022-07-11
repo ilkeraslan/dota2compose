@@ -1,6 +1,7 @@
 package me.ilker.dota2compose
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,7 +29,7 @@ sealed class Screen(
     object TeamsScreen : Screen(
         route = "Teams",
         label = "Teams",
-        icon = Icons.Outlined.Warning
+        icon = Icons.Outlined.Build
     )
 }
 
