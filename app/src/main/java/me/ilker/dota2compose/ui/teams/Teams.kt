@@ -10,8 +10,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
@@ -63,16 +67,66 @@ internal fun Teams(
 
 @Composable
 fun teamDetails(
-    modifier: Modifier = Modifier.fillMaxWidth().padding(20.dp),
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(20.dp),
     teamState: TeamState
 ): @Composable (() -> Unit) = {
     LazyColumn(modifier = modifier) {
         item {
             when (teamState) {
-                TeamState.Empty -> Text(text = "Empty")
+                TeamState.Empty -> {/* no-op */
+                }
                 is TeamState.Error -> Text(text = "Error")
-                is TeamState.Loaded -> Text(text = "Loaded")
-                TeamState.Loading -> Text(text = "Loading")
+                is TeamState.Loaded -> TeamDetails(teamState)
+                TeamState.Loading -> Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TeamDetails(
+    teamState: TeamState.Loaded
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = teamState.team.name,
+            fontStyle = FontStyle.Italic,
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        teamState.team.players?.let { players ->
+            players.forEach { player ->
+                Card(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(text = player.name ?: "Unknown Player")
+                        Text(text = player.wins.toString().plus(" wins"))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+        }
+
+        teamState.team.heroes?.let { heroes ->
+            heroes.forEach { hero ->
+                Card(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(text = hero.name ?: "Unknown Hero")
+                        Text(text = hero.wins.toString().plus(" wins"))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
     }

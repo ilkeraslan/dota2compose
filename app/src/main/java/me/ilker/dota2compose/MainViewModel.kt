@@ -5,12 +5,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.schedulers.IoScheduler
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.kotlin.toObservable
 import io.reactivex.rxjava3.kotlin.zipWith
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.ilker.dota2compose.model.domain.Team
+import me.ilker.dota2compose.model.domain.TeamHero
+import me.ilker.dota2compose.model.domain.TeamPlayer
 import me.ilker.dota2compose.presenter.HeroesState
 import me.ilker.dota2compose.presenter.TeamState
 import me.ilker.dota2compose.presenter.TeamsState
@@ -76,25 +79,30 @@ class MainViewModel @Inject constructor(
                 val teamPlayers = apiService.getTeamPlayers(teamID).toObservable()
                 val teamHeroes = apiService.getTeamHeroes(teamID).toObservable()
 
+                val players1: MutableList<TeamPlayer> = mutableListOf()
+                val heroes1: MutableList<TeamHero> = mutableListOf()
+
                 subscription = teamPlayers
                     .zipWith(teamHeroes)
                     .subscribeOn(IoScheduler())
                     .observeOn(IoScheduler())
                     .map { responsePair ->
-                        val players = responsePair.first.toDomain()
-                        val heroes = responsePair.second.toDomain()
-                        val updatedTeam = team.copy(
-                            players = listOf(players),
-                            heroes = listOf(heroes)
-                        )
+                        val player = responsePair.first.toDomain()
+                        val hero = responsePair.second.toDomain()
 
-                        _teamState.value = TeamState.Loaded(team = updatedTeam)
-
-                        responsePair.first.name
-                            .plus(" ")
-                            .plus(responsePair.second.name)
+                        players1.add(player)
+                        heroes1.add(hero)
                     }
-                    .subscribe()
+                    .subscribeBy(
+                        onNext = {
+                            _teamState.value = TeamState.Loaded(
+                                team = team.copy(
+                                    players = players1,
+                                    heroes = heroes1
+                                )
+                            )
+                        }
+                    )
             }
         }
 
