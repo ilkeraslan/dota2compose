@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.schedulers.IoScheduler
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.kotlin.toObservable
 import io.reactivex.rxjava3.kotlin.zipWith
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -71,6 +69,8 @@ class MainViewModel @Inject constructor(
 
     fun getTeamData(team: Team) {
         if (subscription.isDisposed) {
+            _teamState.value = TeamState.Loading
+
             viewModelScope.launch {
                 val teamID = team.teamId.toString()
                 val teamPlayers = apiService.getTeamPlayers(teamID).toObservable()
@@ -88,10 +88,7 @@ class MainViewModel @Inject constructor(
                             heroes = listOf(heroes)
                         )
 
-                        _teamState.value = TeamState.Loaded(
-                            team = updatedTeam,
-                            infoVisible = true
-                        )
+                        _teamState.value = TeamState.Loaded(team = updatedTeam)
 
                         responsePair.first.name
                             .plus(" ")

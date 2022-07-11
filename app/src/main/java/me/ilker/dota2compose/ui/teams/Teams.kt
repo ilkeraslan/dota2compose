@@ -34,7 +34,7 @@ internal fun Teams(
     val scaffoldState = rememberBottomSheetScaffoldState()
 
     LaunchedEffect(teamState) {
-        if ((teamState is TeamState.Loaded) && teamState.infoVisible) {
+        if (teamState is TeamState.Loading || teamState is TeamState.Loaded) {
             scaffoldState.bottomSheetState.expand()
         } else {
             scaffoldState.bottomSheetState.collapse()
