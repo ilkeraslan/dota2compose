@@ -1,1 +1,1 @@
-/home/ilker/AndroidStudioProjects/dota2compose/buildSrc/build/classes/kotlin/main/Versions.class
+D:\Android-Projects\dota2compose\buildSrc\build\classes\kotlin\main\Versions.class

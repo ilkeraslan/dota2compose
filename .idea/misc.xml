@@ -8,6 +8,7 @@
         <entry key="../../../../layout/compose-model-1634493038056.xml" value="0.14416666666666667" />
         <entry key="../../../../layout/compose-model-1634493926138.xml" value="0.14416666666666667" />
         <entry key="../../../../layout/compose-model-1634924668169.xml" value="0.4925925925925926" />
+        <entry key="..\:/Android-Projects/dota2compose/app/src/main/res/drawable/logo.xml" value="0.108" />
         <entry key="app/src/main/java/me/ilker/dota2compose/ui/components/BottomSheet.kt" value="0.1440466278101582" />
         <entry key="app/src/main/java/me/ilker/dota2compose/ui/teams/Team.kt" value="0.33" />
         <entry key="app/src/main/java/me/ilker/dota2compose/ui/teams/Teams.kt" value="0.5" />
@@ -15,5 +16,5 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
