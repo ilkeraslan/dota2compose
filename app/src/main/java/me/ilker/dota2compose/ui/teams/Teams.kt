@@ -3,10 +3,24 @@
 package me.ilker.dota2compose.ui.teams
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.BottomSheetScaffoldState
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -75,8 +89,9 @@ fun teamDetails(
     LazyColumn(modifier = modifier) {
         item {
             when (teamState) {
-                TeamState.Empty -> {/* no-op */
+                TeamState.Empty -> { /* no-op */
                 }
+
                 is TeamState.Error -> Text(text = "Error")
                 is TeamState.Loaded -> TeamDetails(teamState)
                 TeamState.Loading -> Box(
@@ -140,9 +155,7 @@ private fun sheetContent(
     content: @Composable () -> Unit = {}
 ): @Composable (ColumnScope.() -> Unit) = {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 60.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         content()
@@ -180,7 +193,7 @@ private fun <T> BottomSheetContent(
     onSelect: (T) -> Unit
 ) {
     LazyColumn(
-        modifier = modifier.padding(bottom = 60.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {

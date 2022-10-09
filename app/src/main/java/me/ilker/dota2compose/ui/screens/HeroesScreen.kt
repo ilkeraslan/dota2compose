@@ -1,29 +1,32 @@
 package me.ilker.dota2compose.ui.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -33,9 +36,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
-import coil.transform.CircleCropTransformation
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import me.ilker.dota2compose.DOTA_API
 import me.ilker.dota2compose.R
 import me.ilker.dota2compose.model.domain.Hero
@@ -49,19 +52,22 @@ fun HeroesScreen(
     requestReload: () -> Unit
 ) {
     when (heroState) {
-        HeroesState.Empty -> {
-            requestReload()
-        }
+        HeroesState.Empty -> requestReload()
+
         is HeroesState.Error -> Toast.makeText(
             LocalContext.current,
             heroState.error.message,
             Toast.LENGTH_LONG
         ).show()
-        is HeroesState.Loaded -> LazyColumn(modifier = Modifier.padding(bottom = 60.dp)) {
+
+        is HeroesState.Loaded -> LazyColumn(
+            modifier = Modifier
+        ) {
             items(heroState.heroes) { hero ->
                 HeroCard(hero = hero)
             }
         }
+
         HeroesState.Loading -> Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -76,12 +82,14 @@ fun HeroesScreen(
 fun HeroCard(
     modifier: Modifier = Modifier,
     hero: Hero,
-    painter: ImagePainter = rememberImagePainter(
-        data = DOTA_API.plus(hero.img),
-        builder = {
-            placeholder(R.drawable.ic_error)
-            transformations(CircleCropTransformation())
-        }
+    painter: AsyncImagePainter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data = DOTA_API.plus(hero.img))
+            .crossfade(true)
+            .error(R.drawable.ic_error)
+            .placeholder(R.drawable.logo)
+            .size(coil.size.Size(128, 128))
+            .build()
     )
 ) {
     Card(
@@ -90,7 +98,7 @@ fun HeroCard(
             .padding(top = 12.dp)
             .background(Color.LightGray, RoundedCornerShape(16.dp)),
         backgroundColor = MaterialTheme.colors.background,
-        onClick = { Log.i("CLICK", "OK") }
+        onClick = { /* no-op */ }
     ) {
         Row(
             modifier = Modifier
@@ -100,26 +108,35 @@ fun HeroCard(
             horizontalArrangement = Arrangement.Start
         ) {
             when (painter.state) {
-                ImagePainter.State.Empty -> Image(
-                    modifier = Modifier.size(64.dp),
+                AsyncImagePainter.State.Empty -> Image(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
                     painter = painter,
-                    contentDescription = "Hero image"
+                    contentDescription = "Empty hero image"
                 )
-                is ImagePainter.State.Loading -> CircularProgressIndicator(
+
+                is AsyncImagePainter.State.Loading -> CircularProgressIndicator(
                     Modifier.align(
                         CenterVertically
                     )
                 )
-                is ImagePainter.State.Success -> Image(
-                    modifier = Modifier.size(64.dp),
+
+                is AsyncImagePainter.State.Success -> Image(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
                     painter = painter,
                     contentDescription = "Hero image"
                 )
-                is ImagePainter.State.Error -> Image(
-                    modifier = Modifier.size(64.dp),
+
+                is AsyncImagePainter.State.Error -> Image(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
                     painter = painterResource(R.drawable.ic_error),
                     contentScale = ContentScale.Crop,
-                    contentDescription = null
+                    contentDescription = "Error image"
                 )
             }
 

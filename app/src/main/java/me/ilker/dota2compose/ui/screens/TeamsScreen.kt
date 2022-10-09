@@ -30,16 +30,19 @@ fun TeamsScreen(
 ) {
     when (teamsState) {
         TeamsState.Empty -> requestReload()
+
         is TeamsState.Error -> Toast.makeText(
             LocalContext.current,
             teamsState.error.message,
             Toast.LENGTH_LONG
         ).show()
+
         is TeamsState.Loaded -> Teams(
             teamsState = teamsState,
             teamState = teamState,
             onTeamSelected = onTeamSelected
         )
+
         TeamsState.Loading -> Box(
             modifier = Modifier.fillMaxSize()
         ) {
