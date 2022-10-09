@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     defaultConfig {
         applicationId = "me.ilker.dota2compose"
         minSdk = 23
-        targetSdk = 31
-        versionCode = 1
+        targetSdk = 33
+        versionCode = 2
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
