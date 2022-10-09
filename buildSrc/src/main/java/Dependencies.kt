@@ -1,7 +1,6 @@
 object Versions {
-    const val kotlin = "1.4.31"
-    const val kotlinxCoroutines = "1.4.2-native-mt"
-    const val hilt = "2.31.2-alpha"
+    const val kotlin = "1.7.0"
+    const val kotlinxCoroutines = "1.7.0"
 
     const val compose = "1.0.0-beta02"
     const val nav_compose = "1.0.0-alpha09"
