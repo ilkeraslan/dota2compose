@@ -10,11 +10,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Listen">
+        android:theme="@style/Theme.SplashScreenTheme">
         <activity
             android:name="me.ilker.dota2compose.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Listen.NoActionBar">
+            android:theme="@style/Theme.SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

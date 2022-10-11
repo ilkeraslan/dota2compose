@@ -78,7 +78,7 @@ fun teamDetails(
                 TeamState.Empty -> {/* no-op */
                 }
                 is TeamState.Error -> Text(text = "Error")
-                is TeamState.Loaded -> TeamDetails(teamState)
+                is TeamState.Loaded -> TeamDetails2(teamState)
                 TeamState.Loading -> Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -90,7 +90,7 @@ fun teamDetails(
 }
 
 @Composable
-private fun TeamDetails(
+private fun TeamDetails2(
     teamState: TeamState.Loaded
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
