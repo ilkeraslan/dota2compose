@@ -1,4 +1,4 @@
-package me.ilker.dota2compose
+package me.ilker.dota2compose.service
 
 import me.ilker.dota2compose.model.network.response.HeroResponse
 import me.ilker.dota2compose.model.network.response.TeamHeroResponse
