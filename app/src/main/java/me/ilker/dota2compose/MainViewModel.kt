@@ -1,5 +1,6 @@
 package me.ilker.dota2compose
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ import me.ilker.dota2compose.presenter.HeroesState
 import me.ilker.dota2compose.presenter.TeamState
 import me.ilker.dota2compose.presenter.TeamsState
 import javax.inject.Inject
+import me.ilker.dota2compose.repository.HeroesRepository
 import me.ilker.dota2compose.repository.LeaguesRepository
 import me.ilker.dota2compose.repository.PlayersRepository
 import me.ilker.dota2compose.service.NetworkService
@@ -26,7 +28,8 @@ import me.ilker.dota2compose.service.NetworkService
 class MainViewModel @Inject constructor(
     private val apiService: NetworkService,
     private val leaguesRepository: LeaguesRepository,
-    private val playersRepository: PlayersRepository
+    private val playersRepository: PlayersRepository,
+    private val heroesRepository: HeroesRepository
 ) : ViewModel() {
     private var subscription = Disposable.disposed()
 
