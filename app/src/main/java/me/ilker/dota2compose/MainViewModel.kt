@@ -19,12 +19,14 @@ import me.ilker.dota2compose.presenter.TeamState
 import me.ilker.dota2compose.presenter.TeamsState
 import javax.inject.Inject
 import me.ilker.dota2compose.repository.LeaguesRepository
+import me.ilker.dota2compose.repository.PlayersRepository
 import me.ilker.dota2compose.service.NetworkService
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val apiService: NetworkService,
-    private val leaguesRepository: LeaguesRepository
+    private val leaguesRepository: LeaguesRepository,
+    private val playersRepository: PlayersRepository
 ) : ViewModel() {
     private var subscription = Disposable.disposed()
 

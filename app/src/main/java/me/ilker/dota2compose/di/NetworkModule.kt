@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
+import me.ilker.dota2compose.service.PlayersService
 
 @ExperimentalSerializationApi
 @Module
@@ -24,7 +25,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(
+    fun providesNetworkService(
         okHttpClient: OkHttpClient
     ): NetworkService = Retrofit.Builder()
         .baseUrl("https://api.opendota.com/api/")
@@ -34,6 +35,19 @@ class NetworkModule {
         )
         .build()
         .create(NetworkService::class.java)
+    
+    @Provides
+    @Singleton
+    fun providesPlayersService(
+        okHttpClient: OkHttpClient
+    ): PlayersService = Retrofit.Builder()
+        .baseUrl("https://api.opendota.com/api/")
+        .client(okHttpClient)
+        .addConverterFactory(
+            json.asConverterFactory("application/json".toMediaType())
+        )
+        .build()
+        .create(PlayersService::class.java)
 
     @Provides
     @Singleton

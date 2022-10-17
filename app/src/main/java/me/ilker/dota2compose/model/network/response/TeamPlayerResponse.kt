@@ -1,9 +1,10 @@
 package me.ilker.dota2compose.model.network.response
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import me.ilker.dota2compose.model.domain.TeamPlayer
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class TeamPlayerResponse(
     @SerialName("account_id") val accountID: Long? = null,
     @SerialName("name") val name: String? = null,
