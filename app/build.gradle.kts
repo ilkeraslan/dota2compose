@@ -36,6 +36,7 @@ android {
     buildFeatures {
         compose = true
     }
+    namespace = "me.ilker.dota2compose"
 }
 
 dependencies {

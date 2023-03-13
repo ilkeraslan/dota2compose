@@ -1,5 +1,5 @@
 [versions]
-gradleplugin = "7.0.4"
+gradleplugin = "7.4.2"
 kotlin = "1.7.0"
 compose = "1.2.1"
 okhttp3 = "4.9.0"
