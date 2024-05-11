@@ -39,7 +39,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import me.ilker.dota2compose.DOTA_API
+import me.ilker.dota2compose.DOTA_CDN_API
 import me.ilker.dota2compose.R
 import me.ilker.dota2compose.model.domain.Hero
 import me.ilker.dota2compose.presenter.HeroesState
@@ -84,7 +84,7 @@ fun HeroCard(
     hero: Hero,
     painter: AsyncImagePainter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(data = DOTA_API.plus(hero.img))
+            .data(data = DOTA_CDN_API.plus(hero.img))
             .crossfade(true)
             .error(R.drawable.ic_error)
             .placeholder(R.drawable.logo)
@@ -123,9 +123,7 @@ fun HeroCard(
                 )
 
                 is AsyncImagePainter.State.Success -> Image(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape),
+                    modifier = Modifier,
                     painter = painter,
                     contentDescription = "Hero image"
                 )
