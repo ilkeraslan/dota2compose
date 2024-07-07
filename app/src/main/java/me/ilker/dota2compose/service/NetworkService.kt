@@ -2,6 +2,9 @@ package me.ilker.dota2compose.service
 
 import me.ilker.dota2compose.model.network.response.HeroRankingsResponse
 import me.ilker.dota2compose.model.network.response.HeroResponse
+import me.ilker.dota2compose.model.network.response.PlayerByRankResponse
+import me.ilker.dota2compose.model.network.response.PlayerResponse
+import me.ilker.dota2compose.model.network.response.SearchResponse
 import me.ilker.dota2compose.model.network.response.TeamHeroResponse
 import me.ilker.dota2compose.model.network.response.TeamPlayerResponse
 import me.ilker.dota2compose.model.network.response.TeamResponse
@@ -31,4 +34,14 @@ interface NetworkService {
     suspend fun getHeroRankings(
         @Query("hero_id") heroID: Int
     ): HeroRankingsResponse
+
+    @GET("players/{account_id}")
+    suspend fun getPlayer(
+        @Path("account_id") accountID: String
+    ): PlayerResponse
+
+    @GET("search")
+    suspend fun search(
+        @Query("q") query: String
+    ): List<SearchResponse>
 }

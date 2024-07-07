@@ -23,10 +23,12 @@ import me.ilker.dota2compose.repository.HeroesRepository
 import me.ilker.dota2compose.repository.LeaguesRepository
 import me.ilker.dota2compose.repository.PlayersRepository
 import me.ilker.dota2compose.service.NetworkService
+import me.ilker.dota2compose.service.SteamNetworkService
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val apiService: NetworkService,
+    private val steamService: SteamNetworkService,
     private val leaguesRepository: LeaguesRepository,
     private val playersRepository: PlayersRepository,
     private val heroesRepository: HeroesRepository
@@ -56,6 +58,14 @@ class MainViewModel @Inject constructor(
             } catch (e: Exception) {
                 _heroesState.value = HeroesState.Error(e)
             }
+        }
+
+        viewModelScope.launch {
+            val re = steamService.getPlayerSummary(
+                key = BuildConfig.STEAM_API_KEY,
+                steamids = "76561199337371217"
+            )
+            println(re)
         }
     }
 
