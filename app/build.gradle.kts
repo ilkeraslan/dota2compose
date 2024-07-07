@@ -15,6 +15,11 @@ android {
         versionCode = 4
         versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField(
+            type = "String",
+            name = "STEAM_API_KEY",
+            value = "\"${System.getenv("STEAM_API_KEY")}\""
+        )
     }
     buildTypes {
         getByName("release") {

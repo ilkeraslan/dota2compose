@@ -14,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
 import me.ilker.dota2compose.service.PlayersService
+import me.ilker.dota2compose.service.SteamNetworkService
 
 @ExperimentalSerializationApi
 @Module
@@ -21,6 +22,7 @@ import me.ilker.dota2compose.service.PlayersService
 class NetworkModule {
     private val json = Json {
         ignoreUnknownKeys = true
+        isLenient = true
     }
 
     @Provides
@@ -48,6 +50,19 @@ class NetworkModule {
         )
         .build()
         .create(PlayersService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesSteamService(
+        okHttpClient: OkHttpClient
+    ): SteamNetworkService = Retrofit.Builder()
+        .baseUrl("https://api.steampowered.com/")
+        .client(okHttpClient)
+        .addConverterFactory(
+            json.asConverterFactory("application/json".toMediaType())
+        )
+        .build()
+        .create(SteamNetworkService::class.java)
 
     @Provides
     @Singleton

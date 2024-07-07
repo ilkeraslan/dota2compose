@@ -7,7 +7,7 @@ An app to show dota2 related information using JetpackCompose.
 
 ## API
 
-The data is provided by [OpenDota API](https://docs.opendota.com/).
+The data is provided by both [OpenDota API](https://docs.opendota.com/) and Steam API. In order to start development, you need to get a Steam API Key, and define an environment variable with the name "STEAM_API_KEY".
 
 ## Stack
 
