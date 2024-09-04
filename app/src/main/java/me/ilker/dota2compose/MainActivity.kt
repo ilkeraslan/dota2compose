@@ -57,13 +57,6 @@ private fun MainScreen() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "dota2compose", color = Color.White) },
-                backgroundColor = Color(0XFFA30900),
-                actions = {}
-            )
-        },
         bottomBar = bottomBar
     ) { paddingValues ->
         NavHost(
