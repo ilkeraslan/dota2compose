@@ -1,12 +1,12 @@
 **Privacy Policy**
 
-Ilker Aslan built the dota2Compose app as an Open Source app. This SERVICE is provided by Ilker Aslan at no cost and is intended for use as is.
+Ilker Aslan built the Dota 2 Manager app as an Open Source app. This SERVICE is provided by Ilker Aslan at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
 
 No personal information is collected for this app.
 
-The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at dota2Compose unless otherwise defined in this Privacy Policy.
+The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Dota 2 Manager unless otherwise defined in this Privacy Policy.
 
 **Information Collection and Use**
 

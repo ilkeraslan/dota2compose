@@ -5,6 +5,6 @@ pluginManagement {
         mavenCentral()
     }
 }
-rootProject.name = "dota2compose"
+rootProject.name = "Dota 2 Manager"
 
 include(":app")

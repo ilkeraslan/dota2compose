@@ -10,7 +10,7 @@ android {
     compileSdk = 33
     defaultConfig {
         applicationId = "me.ilker.dota2compose"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 33
         versionCode = 4
         versionName = "1.0.1"

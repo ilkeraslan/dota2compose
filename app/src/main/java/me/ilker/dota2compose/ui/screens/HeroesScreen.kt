@@ -87,7 +87,7 @@ fun HeroCard(
             .data(data = DOTA_CDN_API.plus(hero.img))
             .crossfade(true)
             .error(R.drawable.ic_error)
-            .placeholder(R.drawable.logo)
+            .placeholder(R.drawable.ic_launcher_foreground)
             .size(coil.size.Size(128, 128))
             .build()
     )
