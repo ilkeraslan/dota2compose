@@ -15,7 +15,7 @@ android {
         applicationId = "me.ilker.dota2composer"
         minSdk = 26
         targetSdk = 34
-        versionCode = 4
+        versionCode = 5
         versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,11 +41,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_21.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
         compose = true
