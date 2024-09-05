@@ -1,26 +1,38 @@
+import com.android.build.api.variant.BuildConfigField
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.plugin.serialization)
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
-        applicationId = "me.ilker.dota2compose"
+        applicationId = "me.ilker.dota2composer"
         minSdk = 26
-        targetSdk = 33
-        versionCode = 4
+        targetSdk = 34
+        versionCode = 5
         versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField(
-            type = "String",
-            name = "STEAM_API_KEY",
-            value = "\"${System.getenv("STEAM_API_KEY")}\""
-        )
     }
+
+    androidComponents {
+        onVariants {
+            it.buildConfigFields.put(
+                /* key = */ "STEAM_API_KEY",
+                /* value = */ BuildConfigField(
+                    type = "String",
+                    value = "\"${System.getenv("STEAM_API_KEY")}\"",
+                    comment = "STEAM_API_KEY build config configuration"
+                )
+            )
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -29,19 +41,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
-    namespace = "me.ilker.dota2compose"
+    namespace = "me.ilker.dota2composer"
 }
 
 dependencies {
