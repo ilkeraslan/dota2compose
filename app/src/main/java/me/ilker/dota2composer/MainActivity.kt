@@ -3,9 +3,15 @@ package me.ilker.dota2composer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,7 +30,6 @@ import me.ilker.dota2composer.ui.theme.Dota2ComposeTheme
 
 @ExperimentalUnitApi
 @ExperimentalCoilApi
-@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -43,7 +48,6 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalUnitApi
 @ExperimentalCoilApi
-@ExperimentalMaterialApi
 @Composable
 private fun MainScreen() {
     val navController = rememberNavController()
@@ -81,31 +85,27 @@ private fun AppBottomNavigation(
     navController: NavHostController,
     items: List<BottomNavItem>
 ) {
-    BottomNavigation(
-        backgroundColor = Color(0XFFA30900),
-        contentColor = Color.White
+    BottomAppBar(
+        containerColor = Color(0XFFA30900),
+        contentColor = MaterialTheme.colorScheme.primary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        items.map { it.screen }.forEach { screen ->
-            BottomNavigationItem(
-                icon = {
-                    screen.icon?.let {
-                        Icon(
-                            imageVector = screen.icon,
-                            contentDescription = screen.label
-                        )
-                    }
-                },
-                label = { Text(screen.label) },
-                selected = currentRoute == screen.route,
-                onClick = {
-                    if (currentRoute != screen.route) {
-                        navController.navigate(screen.route)
-                    }
-                }
-            )
+        Row(modifier = Modifier.fillMaxWidth()) {
+            items.map { it.screen }.forEach { screen ->
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .clickable {
+                            if (currentRoute != screen.route) {
+                                navController.navigate(screen.route)
+                            }
+                        },
+                    text = screen.label
+                )
+            }
         }
     }
 }

@@ -1,33 +1,24 @@
 package me.ilker.dota2composer.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = Color(0XFFEC5C5C),
-    primaryVariant = Color(0XAAEC5C5C),
+private val DarkColorPalette = darkColorScheme(
+    primary = Color(0XFFFFFFFF),
+    onPrimary = Color(0XFFFFFFFF),
     secondary = Color(0XAA90BB10),
-    secondaryVariant = Color(0XFF90BB10)
+    onSecondary = Color(0XAA90BB10)
 )
 
-private val LightColorPalette = lightColors(
+private val LightColorPalette = lightColorScheme(
     primary = Color(0XFFEC5C5C),
-    primaryVariant = Color(0XAAEC5C5C),
+    onPrimary = Color(0XFFEC5C5C),
     secondary = Color(0XAA90BB10),
-    secondaryVariant = Color(0XFF90BB10)
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    onSecondary = Color(0XAA90BB10)
 )
 
 @Composable
@@ -42,7 +33,7 @@ fun Dota2ComposeTheme(
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = Typography,
         shapes = Shapes,
         content = content

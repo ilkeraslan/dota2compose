@@ -1,44 +1,42 @@
 [versions]
-gradleplugin = "8.3.2"
-kotlin = "2.0.0"
-compose = "1.7.0"
-okhttp3 = "4.10.0"
-hilt = "2.52"
+gradleplugin = "8.9.1"
+kotlin = "2.1.20"
+okhttp = "4.12.0"
+hilt = "2.56.1"
+compose = "2025.04.00"
 
 [libraries]
-material = "com.google.android.material:material:1.12.0"
-androidx-core-ktx = "androidx.core:core-ktx:1.13.1"
+androidx-core-ktx = "androidx.core:core-ktx:1.16.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
-androidx-activity-compose = "androidx.activity:activity-compose:1.9.2"
-androidx-lifecycle-runtime-ktx = "androidx.lifecycle:lifecycle-runtime-ktx:2.8.5"
+androidx-activity-compose = "androidx.activity:activity-compose:1.10.1"
+androidx-lifecycle-runtime-ktx = "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
 androidx-core-splashscreen = "androidx.core:core-splashscreen:1.0.1"
-
-compose-ui = { module = "androidx.compose.ui:ui" , version.ref="compose" }
-compose-runtime = { module = "androidx.compose.runtime:runtime" , version.ref="compose" }
-compose-material = { module = "androidx.compose.material:material" , version.ref="compose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" , version.ref="compose" }
-compose-compiler = "androidx.compose.compiler:compiler:1.5.15"
-coil-compose = "io.coil-kt:coil-compose:2.2.2"
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+coil-compose = "io.coil-kt:coil-compose:2.7.0"
 
 android-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 android-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 android-hilt-navigation-compose = "androidx.hilt:hilt-navigation-compose:1.2.0"
 
-okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref="okhttp3"}
-okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref="okhttp3"}
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref="okhttp"}
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref="okhttp"}
 
 rxkotlin = "io.reactivex.rxjava3:rxkotlin:3.0.1"
-retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
-retrofit2-kotlinx-serialization-converter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
+retrofit = "com.squareup.retrofit2:retrofit:2.11.0"
+retrofit2-kotlinx-serialization-converter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1"
 
 junit = "junit:junit:4.13.2"
 androidx-junit = "androidx.test.ext:junit:1.2.1"
 androidx-espresso = "androidx.test.espresso:espresso-core:3.6.1"
 
 [bundles]
-compose = ["compose-ui", "compose-runtime", "compose-material", "compose-ui-tooling", "compose-compiler", "coil-compose"]
-okhttp3 = ["okhttp3", "okhttp3-logging-interceptor"]
+okhttp = ["okhttp", "okhttp-logging-interceptor"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradleplugin" }

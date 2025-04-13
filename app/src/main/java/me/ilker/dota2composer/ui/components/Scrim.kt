@@ -5,7 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,7 +18,7 @@ import androidx.compose.ui.semantics.semantics
 
 @Composable
 fun Scrim(
-    color: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.32f),
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.32f),
     onDismiss: () -> Unit,
     visible: Boolean
 ) {

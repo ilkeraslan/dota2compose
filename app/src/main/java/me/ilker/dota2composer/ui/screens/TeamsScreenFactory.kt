@@ -1,6 +1,5 @@
 package me.ilker.dota2composer.ui.screens
 
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.ExperimentalUnitApi
@@ -13,7 +12,6 @@ import me.ilker.dota2composer.NavFactory
 import me.ilker.dota2composer.Screen
 
 @ExperimentalUnitApi
-@ExperimentalMaterialApi
 class TeamsScreenFactory : NavFactory {
     override fun create(
         navGraphBuilder: NavGraphBuilder,
@@ -22,12 +20,9 @@ class TeamsScreenFactory : NavFactory {
         navGraphBuilder.composable(Screen.TeamsScreen.route) {
             val mainViewModel: MainViewModel = hiltViewModel()
             val teamsState by mainViewModel.teamsState.collectAsState()
-            val teamState by mainViewModel.teamState.collectAsState()
 
             TeamsScreen(
-                teamsState = teamsState,
-                teamState = teamState,
-                onTeamSelected = { mainViewModel.getTeamData(it) }
+                teamsState = teamsState
             ) {
                 mainViewModel.getTeams()
             }

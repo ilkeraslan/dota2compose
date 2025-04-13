@@ -10,12 +10,12 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "me.ilker.dota2composer"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 5
+        targetSdk = 35
+        versionCode = 8
         versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,27 +55,38 @@ android {
 }
 
 dependencies {
-    implementation(libs.material)
+    // Compose
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
+
+    // Coil
+    implementation(libs.coil.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.core.splashscreen)
 
-    implementation(libs.bundles.compose)
-
     implementation(libs.rxkotlin)
     implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.bundles.okhttp3)
+    implementation(libs.bundles.okhttp)
 
+    // Hilt
     implementation(libs.android.hilt)
     implementation(libs.android.hilt.navigation.compose)
     kapt(libs.android.hilt.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(composeBom)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
 }

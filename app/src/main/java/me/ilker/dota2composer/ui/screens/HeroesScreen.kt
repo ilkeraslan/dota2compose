@@ -17,11 +17,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -45,7 +43,7 @@ import me.ilker.dota2composer.model.domain.Hero
 import me.ilker.dota2composer.presenter.HeroesState
 
 @ExperimentalCoilApi
-@ExperimentalMaterialApi
+
 @Composable
 fun HeroesScreen(
     heroState: HeroesState = HeroesState.Empty,
@@ -77,28 +75,26 @@ fun HeroesScreen(
 }
 
 @ExperimentalCoilApi
-@ExperimentalMaterialApi
 @Composable
 fun HeroCard(
     modifier: Modifier = Modifier,
-    hero: Hero,
-    painter: AsyncImagePainter = rememberAsyncImagePainter(
+    hero: Hero
+) {
+    val painter: AsyncImagePainter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(data = DOTA_CDN_API.plus(hero.img))
             .crossfade(true)
             .error(R.drawable.ic_error)
             .placeholder(R.drawable.ic_launcher_foreground)
-            .size(coil.size.Size(128, 128))
+            .size(coil.size.Size.ORIGINAL)
             .build()
     )
-) {
+
     Card(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .padding(top = 12.dp)
-            .background(Color.LightGray, RoundedCornerShape(16.dp)),
-        backgroundColor = MaterialTheme.colors.background,
-        onClick = { /* no-op */ }
+            .background(Color.LightGray, RoundedCornerShape(16.dp))
     ) {
         Row(
             modifier = Modifier
@@ -159,7 +155,6 @@ fun HeroCard(
 }
 
 @ExperimentalCoilApi
-@ExperimentalMaterialApi
 @Preview
 @Composable
 fun HeroCardPreview() {
