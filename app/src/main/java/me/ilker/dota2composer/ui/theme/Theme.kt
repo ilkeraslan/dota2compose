@@ -11,14 +11,18 @@ private val DarkColorPalette = darkColorScheme(
     primary = Color(0xFFD5C8C8),
     onPrimary = Color(0XFFFFFFFF),
     secondary = Color(0xAAC6EE71),
-    onSecondary = Color(0xAAC6EE71)
+    onSecondary = Color(0xAAC6EE71),
+    tertiary = Color(0xFFC57570),
+    onTertiary = Color(0xFFC57570)
 )
 
 private val LightColorPalette = lightColorScheme(
     primary = Color(0xFF503939),
     onPrimary = Color(0xFF503939),
     secondary = Color(0xFF008D05),
-    onSecondary = Color(0xFF008D05)
+    onSecondary = Color(0xFF008D05),
+    tertiary = Color(0xFFFF9A94),
+    onTertiary = Color(0xFFFF9A94)
 )
 
 @Composable
