@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +38,9 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.size.Dimension
+import coil.size.OriginalSize
+import coil.size.Size
 import me.ilker.dota2composer.DOTA_CDN_API
 import me.ilker.dota2composer.R
 import me.ilker.dota2composer.model.domain.Hero
@@ -82,11 +86,11 @@ fun HeroCard(
 ) {
     val painter: AsyncImagePainter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(data = DOTA_CDN_API.plus(hero.img))
+            .data(data = DOTA_CDN_API + hero.img)
             .crossfade(true)
             .error(R.drawable.ic_error)
             .placeholder(R.drawable.ic_launcher_foreground)
-            .size(coil.size.Size.ORIGINAL)
+            .size(Size.ORIGINAL)
             .build()
     )
 
@@ -121,6 +125,7 @@ fun HeroCard(
                 is AsyncImagePainter.State.Success -> Image(
                     modifier = Modifier,
                     painter = painter,
+                    contentScale = ContentScale.FillWidth,
                     contentDescription = "Hero image"
                 )
 
@@ -143,15 +148,24 @@ fun HeroCard(
             ) {
                 Text(
                     text = hero.localizedName ?: "",
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = hero.primaryAttr ?: "",
-                    style = TextStyle.Default
+                    text = hero.primaryAttr.getPrimaryAttribute(),
+                    style = TextStyle.Default,
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
         }
     }
+}
+
+private fun String?.getPrimaryAttribute() = when (this) {
+    "str" -> "Strength"
+    "agi" -> "Agility"
+    "int" -> "Intelligence"
+    else -> "Unknown"
 }
 
 @ExperimentalCoilApi

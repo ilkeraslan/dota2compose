@@ -8,11 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import me.ilker.dota2composer.presenter.TeamsState
 import me.ilker.dota2composer.ui.teams.Teams
 
-@ExperimentalUnitApi
 @Composable
 fun TeamsScreen(
     teamsState: TeamsState = TeamsState.Empty,

@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.text.style.TextAlign
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,7 +28,6 @@ import me.ilker.dota2composer.ui.screens.HeroesScreenFactory
 import me.ilker.dota2composer.ui.screens.TeamsScreenFactory
 import me.ilker.dota2composer.ui.theme.Dota2ComposeTheme
 
-@ExperimentalUnitApi
 @ExperimentalCoilApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -46,7 +45,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalUnitApi
 @ExperimentalCoilApi
 @Composable
 private fun MainScreen() {
@@ -103,7 +101,8 @@ private fun AppBottomNavigation(
                                 navController.navigate(screen.route)
                             }
                         },
-                    text = screen.label
+                    text = screen.label,
+                    textAlign = TextAlign.Center
                 )
             }
         }

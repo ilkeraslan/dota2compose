@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import me.ilker.dota2composer.model.domain.Team
 import me.ilker.dota2composer.presenter.TeamsState
 
-@ExperimentalUnitApi
 @Composable
 internal fun Teams(
     teamsState: TeamsState

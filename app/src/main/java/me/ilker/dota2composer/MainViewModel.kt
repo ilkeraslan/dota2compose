@@ -44,9 +44,6 @@ class MainViewModel @Inject constructor(
     val teamsState: StateFlow<TeamsState>
         get() = _teamsState
 
-    val teamState: StateFlow<TeamState>
-        get() = _teamState
-
     fun getHeroes() {
         _heroesState.value = HeroesState.Loading
 
@@ -59,13 +56,13 @@ class MainViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch {
-            val re = steamService.getPlayerSummary(
-                key = BuildConfig.STEAM_API_KEY,
-                steamids = "76561199337371217"
-            )
-            println(re)
-        }
+//        viewModelScope.launch {
+//            val re = steamService.getPlayerSummary(
+//                key = BuildConfig.STEAM_API_KEY,
+//                steamids = "76561199337371217"
+//            )
+//            println(re)
+//        }
     }
 
     fun getTeams() {
